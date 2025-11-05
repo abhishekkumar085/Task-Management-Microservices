@@ -1,7 +1,8 @@
 const express = require("express");
+const connectDb = require("./config/db.config");
 const app = express();
 
-const PORT = 8900
+const PORT = process.env.PORT || 8900;
 
 app.use(express.json());
 
@@ -10,5 +11,7 @@ app.get("/", (req, res) => {
 })
 
 app.listen(PORT, () => {
+    connectDb();
     console.log("Server is listening on Port", PORT)
+
 })
