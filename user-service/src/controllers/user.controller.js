@@ -21,7 +21,7 @@ async function createUser(req, res) {
 async function getAllUser(req, res) {
     try {
         const response = await User.find({}).sort({ createdAt: -1 });;
-        return res.status(201).json({ success: true, message: "User fetched successfully", data: response });
+        return res.status(200).json({ success: true, message: "User fetched successfully", data: response });
 
     } catch (err) {
         return res.status(500).json({ success: false, message: "Failed to fetched user", error: err.message });
