@@ -10,7 +10,7 @@ async function createUser(req, res) {
         return res.status(201).json({ success: true, message: "User created successfully", data: response });
 
     } catch (err) {
-        console.log('err', err.code === 11000);
+        console.log('err', err);
         if (err.code === 11000) {
             return res.status(400).json({ success: false, message: "Email already exists" });
         }
