@@ -14,7 +14,7 @@ services:
       - "3100:3100"
     environment:
       - PORT=3100
-      - MONGO_URL=mongodb://mongo:27017/users
+      - MONGO_URL=mongodb://mongo:27017/user_db
     depends_on:
       - mongo
   task-service:
@@ -24,7 +24,7 @@ services:
       - "3200:3200"
     environment:
       - PORT=3200
-      - MONGO_URL=mongodb://mongo:27017/tasks
+      - MONGO_URL=mongodb://mongo:27017/task_db
     depends_on:
       - mongo
 
