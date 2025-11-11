@@ -17,6 +17,16 @@ services:
       - MONGO_URL=mongodb://mongo:27017/users
     depends_on:
       - mongo
+  task-service:
+    build: ./task-service
+    container_name: task-service
+    ports:
+      - "3200:3200"
+    environment:
+      - PORT=3200
+      - MONGO_URL=mongodb://mongo:27017/tasks
+    depends_on:
+      - mongo
 
 volumes:
   mongo-data:
