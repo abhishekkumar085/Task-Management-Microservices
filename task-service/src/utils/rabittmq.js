@@ -2,7 +2,7 @@ const amqp = require('amqplib');
 
 let channel, connection;
 
-async function connectRabbitMQWithRetry(retries = 5, delay = 3000) {
+async function connectRabbitMQWithRetry(retries = 10, delay = 5000) {
 
     while (retries) {
         try {
@@ -11,7 +11,7 @@ async function connectRabbitMQWithRetry(retries = 5, delay = 3000) {
             channel = await connection.createChannel();
             await channel.assertQueue("task_created", { durable: true })
             console.log("Connected to RabbitMQ successfully");
-            return;
+            return channel;
         } catch (error) {
             console.log("error", error.message);
             retries -= 1;
@@ -24,7 +24,11 @@ async function connectRabbitMQWithRetry(retries = 5, delay = 3000) {
 
 }
 
+function getChannel() {
+    return channel;
+}
+
 module.exports = {
-    channel,
+    getChannel,
     connectRabbitMQWithRetry,
 }

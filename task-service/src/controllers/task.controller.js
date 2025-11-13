@@ -1,5 +1,5 @@
 const Task = require("../models/task.model");
-const { channel } = require("../utils/rabitmq");
+const { getChannel } = require("../utils/rabittmq");
 
 async function createTask(req, res) {
     try {
@@ -13,6 +13,7 @@ async function createTask(req, res) {
             user_id: response.user_id,
             status: response.status
         }
+        const channel = getChannel();
         if (!channel) {
             return res.status(500).json({ success: false, message: "Failed to create task, channel not found" });
         }
