@@ -1,15 +1,27 @@
 const Task = require("../models/task.model");
+const { channel } = require("../utils/rabitmq");
 
 async function createTask(req, res) {
     try {
         const { title, description, user_id } = req.body || {};
 
         const response = await Task.create({ title, description, user_id });
+        const message = {
+            task_id: response._id,
+            title: response.title,
+            description: response.description,
+            user_id: response.user_id,
+            status: response.status
+        }
+        if (!channel) {
+            return res.status(500).json({ success: false, message: "Failed to create task, channel not found" });
+        }
+        channel.sendToQueue("task_created", Buffer.from(JSON.stringify(message)));
+
         return res.status(201).json({ success: true, message: "Task created successfully", data: response });
 
     } catch (err) {
-        console.log('err', err.code === 11000);
-
+        console.log('error while creating task', err);
         return res.status(500).json({ success: false, message: "Failed to create task", error: err.message });
 
     }

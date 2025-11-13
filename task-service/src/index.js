@@ -1,6 +1,8 @@
 const express = require("express");
 const connectDb = require("./config/db.config");
 const taskRoute = require("./routes/task.routes");
+const { connectRabbitMQWithRetry } = require("./utils/rabitmq");
+// const { connectRabbitMQWithRetry } = require("./utils/rabitmq");
 const app = express();
 
 const PORT = process.env.PORT || 3100;
@@ -15,7 +17,8 @@ app.get("/", (req, res) => {
 })
 
 app.listen(PORT, () => {
-    connectDb();
+    // connectDb();
+    connectRabbitMQWithRetry();
     console.log("Server is listening on Port", PORT)
 
 })
